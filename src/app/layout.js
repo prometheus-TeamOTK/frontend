@@ -1,5 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import styles from './page.module.css'
+import useMediaQuery from "react-responsive";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +13,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={styles.main_container}>{children}</body>
     </html>
   );
 }
+
+

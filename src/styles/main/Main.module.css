@@ -1,0 +1,56 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.main_container {
+    height: 100%;
+    width: 100%;
+    background-color: #DFE9F5;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    position: relative;
+}
+
+.main_title {
+    font-size: 33px;
+    font-family: 'GmarketSansMedium';
+    font-weight: 700;
+    margin: 25px;
+    color: #003B85;
+    white-space: pre-wrap;
+    text-align: center;
+}
+
+.sub_title {
+    font-size: 20px;
+    margin: 25px;
+    color: #808080;
+    white-space: pre-wrap;
+    text-align: center;
+    font-family: 'GmarketSansMedium';
+    font-weight: 500;
+}
+
+.create_button {
+    width: 200px;
+    height: 50px;
+    background-color: #003B85;
+    color: white;
+    font-size: 20px;
+    font-family: 'GmarketSansMedium';
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    margin: 25px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+}

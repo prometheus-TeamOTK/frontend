@@ -1,0 +1,56 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.create_container {
+    height: 100%;
+    width: 100%;
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    /* position: relative; */
+}
+
+.create_header {
+    height: 70px;
+    width: 100%;
+    /* background-color: #DFE9F5; */
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #C5D4EB;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+
+    font-size: 25px;
+    font-family: 'GmarketSansMedium';
+    font-weight: 700;
+    color: #003B85;
+    white-space: pre-wrap;
+    text-align: center;
+}
+
+.create_button {
+    height: 50px;
+    width: 90%;
+    background-color: #003B85;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+
+    font-size: 20px;
+    font-family: 'GmarketSansMedium';
+    font-weight: 700;
+    color: white;
+    white-space: pre-wrap;
+    text-align: center;
+}
