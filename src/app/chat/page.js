@@ -5,13 +5,14 @@ import Header from "../_components/common/_header";
 import SearchBox from "../_components/chat/_searchbox";
 
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, React } from "react";
 import { Dropdown, DropdownButton} from 'react-bootstrap';
 
 export default function Chat() {
+    const datas = require('/public/data/situation.json');
 
     const [createtitle, setCreateTitle] = useState('새로운 스토리를 만들어보세요!');
-    
+
     const [story, setStory] = useState('');
     const [sender, setSender] = useState('');
     const [receiver, setReceiver] = useState('');
@@ -20,28 +21,31 @@ export default function Chat() {
     const [chatId, setChatId] = useState(1); // /chat/{chatId}로 이동
 
     const [storyList, setStoryList] = useState([
-        '신데렐라', '백설공주', '인어공주', '미녀와야수', '잠자는 숲속의 미녀'
+        "", ...new Set(datas.map((data) => data.story))
     ]);
 
-    const [senderList, setSenderList] = useState([
-        '신데렐라', '왕자'
-    ]);
-
-    const [receiverList, setReceiverList] = useState([
-        '신데렐라', '왕자'
-    ]);
-
-    const [situationList, setSituationList] = useState([
-        '신데렐라가 어쩌구 저쩌구 길게 으아으ㅏ룸너ㅏㅇㄹ문어ㅏ루처ㅏ퀀뤄뭥', '숲속에서ㄴㅇ라ㅓ망나ㅣ우라눙어쩌구 저꺼구 엄청 우와'
-    ]);
+    const [senderList, setSenderList] = useState([]);
+    const [receiverList, setReceiverList] = useState([]);
+    const [situationList, setSituationList] = useState([]);
 
     const chatroom = () => {
         window.location.href = `/chat/${chatId}`
     }
 
     useEffect(() => {
-        console.log(story); 
-    }, [story])
+        setSenderList([
+            "", ...new Set(datas.filter(data => data.story == story).map(data => data.user))
+        ]);
+        setReceiverList([
+            "", ...new Set(datas.filter(data => data.story == story && data.user == sender).map(data => data.bot))
+        ]);
+        setSituationList([
+            "", ...new Set(datas.filter(data => data.story == story && data.user == sender && data.bot == receiver).map(data => data.sit_title))
+        ]);
+        setChatId(
+            ...new Set(datas.filter(data => data.story == story && data.user == sender && data.bot == receiver).map(data => data.id))
+        )
+    }, [story, sender, receiver, situation])
 
     return (
         <div className={styles.container}>

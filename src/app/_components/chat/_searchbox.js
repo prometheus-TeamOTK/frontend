@@ -10,7 +10,7 @@ export default function SearchBox({title, dataList, setData}) {
         <div className={styles.sub_title}>{title}</div>
         <select className={styles.sub_input} onChange={(e) => setData(e.target.value)}>                    
             {dataList.map((data, index) => {
-                return <option key={data} value={data}>{data}</option>
+                return <option key={index} value={data}>{data}</option>
             })}
         </select> 
         </div>
