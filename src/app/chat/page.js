@@ -1,14 +1,14 @@
 "use client";
 
-import styles from "../../styles/create/Create.module.css"
+import styles from "../../styles/chat/Chat.module.css"
 import Header from "../_components/common/_header";
-import SearchBox from "../_components/create/_searchbox";
+import SearchBox from "../_components/chat/_searchbox";
 
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Dropdown, DropdownButton} from 'react-bootstrap';
 
-export default function Create() {
+export default function Chat() {
 
     const [createtitle, setCreateTitle] = useState('새로운 스토리를 만들어보세요!');
     
@@ -16,6 +16,8 @@ export default function Create() {
     const [sender, setSender] = useState('');
     const [receiver, setReceiver] = useState('');
     const [situation, setSituation] = useState('');
+
+    const [chatId, setChatId] = useState(1); // /chat/{chatId}로 이동
 
     const [storyList, setStoryList] = useState([
         '신데렐라', '백설공주', '인어공주', '미녀와야수', '잠자는 숲속의 미녀'
@@ -33,6 +35,10 @@ export default function Create() {
         '신데렐라가 어쩌구 저쩌구 길게 으아으ㅏ룸너ㅏㅇㄹ문어ㅏ루처ㅏ퀀뤄뭥', '숲속에서ㄴㅇ라ㅓ망나ㅣ우라눙어쩌구 저꺼구 엄청 우와'
     ]);
 
+    const chatroom = () => {
+        window.location.href = `/chat/${chatId}`
+    }
+
     useEffect(() => {
         console.log(story); 
     }, [story])
@@ -45,12 +51,14 @@ export default function Create() {
                     {createtitle}
                 </div>
 
-                <SearchBox title="동화" dataList={storyList} setData={setStory}/>
-                <SearchBox title="나의 캐릭터" dataList={senderList} setData={setSender}/>
-                <SearchBox title="상대 캐릭터" dataList={receiverList} setData={setReceiver}/>
-                <SearchBox title="스토리 배경상황" dataList={situationList} setData={setSituation}/>
-                
-                <div className={styles.create_button}>채팅 생성</div>
+                <div className={styles.create_select_container}>
+                    <SearchBox title="동화" dataList={storyList} setData={setStory}/>
+                    <SearchBox title="나의 캐릭터" dataList={senderList} setData={setSender}/>
+                    <SearchBox title="상대 캐릭터" dataList={receiverList} setData={setReceiver}/>
+                    <SearchBox title="스토리 배경상황" dataList={situationList} setData={setSituation}/>
+                </div>
+                    
+                <div className={styles.create_button} onClick={chatroom}>채팅 생성</div>
             </div>
         </div>
     )

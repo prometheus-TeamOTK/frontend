@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "../../../styles/create/_searchbox.module.css";
+import styles from "../../../styles/chat/_searchbox.module.css";
 import { useState } from "react";
 
 export default function SearchBox({title, dataList, setData}) {

@@ -4,6 +4,7 @@
     height: 100%;
     width: 100%;
     position: absolute;
+    overflow: hidden;
 }
 
 .create_container {
@@ -34,6 +35,17 @@
     color: #003B85;
     white-space: pre-wrap;
     text-align: center;
+}
+
+.create_select_container {
+    height: 100%;
+    width: 100%;
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* position: relative; */
 }
 
 .create_button {

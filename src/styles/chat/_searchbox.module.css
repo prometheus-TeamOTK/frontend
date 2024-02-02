@@ -6,11 +6,12 @@
     flex-direction: column;
     /* justify-content: center; */
     /* align-items: center; */
-    position: relative;
+    /* position: relative; */
     margin: 5px;
 }
 
 .sub_title {
+    width: 90%;
     font-size: 20px;
     margin: 5px 20px ;
     color: black;
@@ -21,8 +22,8 @@
 }
 
 .sub_input {
-    /* width: 100%;
-    height: 50px; */
+    width: 90%;
+    /* height: 50px; */
     background-color: #DFE9F5;
     border: none;
     border-radius: 10px;

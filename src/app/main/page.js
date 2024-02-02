@@ -13,7 +13,7 @@ export default function Main() {
     const [createButton, setCreateButton] = useState('스토리 만들기');
 
     const create = () => {
-        window.location.href = "/create"
+        window.location.href = "/chat"
     }
 
     return (
