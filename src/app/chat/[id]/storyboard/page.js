@@ -5,39 +5,40 @@ import Header from "../../../_components/common/_header";
 
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { useSearchParams } from "next/navigation";
 import { Dropdown, DropdownButton} from 'react-bootstrap';
+import JSZip from 'jszip';
 
 export default function StoryBoard() {
 
     const pathname = usePathname();
+    const chatId = pathname.split("/")[2];
+    // const url = pathname.split("=")[1];
 
-    const [story, setStory] = useState('신데렐라');
-    const [situation, setSituation] = useState('신데렐라가 어쩌구 저쩌구 길게 으아으ㅏ룸너ㅏㅇㄹ문어ㅏ루처ㅏ퀀뤄뭥');
-    const [pictureURL, setPictureURL] = useState('https://i.namu.wiki/i/qdBdyEXQiM33VnZaOYAutFApjIs7_mcW5FDyjOzaXrVIEdZMsBE8MmCcRYSkOOMsXo6Jnx09Pj4BuEL2CLW3PwPKlLBo5O5Eb1ok7_jRPPpgb0VeVgRfy1ikA3lz-bR-uN8pW2aI8QAi7Hq987lcBw.webp');
+    const params = useSearchParams();
+    const blobUrl = params.get('url');
 
-    const storePicture = () => {
-        fetch(pictureURL, { method: 'GET' })
-            .then((res) => {
-                return res.blob();
-            })
-            .then((blob) => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = "storyboard.png";
-                document.body.appendChild(a);
-                a.click();
-                setTimeout((_) => {
-                    window.URL.revokeObjectURL(url);
-                }, 60000);
-                a.remove();
-                setOpen(false);
-            })
-            .catch((err) => {
-                console.error('err: ', err);
-            });
+    const datas = require('/public/data/situation.json');
+
+    const [story, setStory] = useState(datas.find(data => data.id == chatId)?.story);
+    const [situation, setSituation] = useState(datas.find(data => data.id == chatId)?.sit_title);
+
+    const [imageUrls, setImageUrls] = useState([]);
+
+    const storePicture = async () => {
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = 'images.zip'; // Specify the filename
+        document.body.appendChild(a); // Append the link to the document
+        a.click(); // Programmatically click the link to trigger the download
+        document.body.removeChild(a); // Clean up by removing the link
+        window.URL.revokeObjectURL(blobUrl); // Free up memory by revoking the blob URL
     }
+
+    useEffect(() => {
+        storePicture();
+    }, []);
 
     return (
         <div className={styles.container}>
@@ -61,11 +62,14 @@ export default function StoryBoard() {
                 </div>
 
                 <div className={styles.storyboard_context_container}>
-                    <img className={styles.storyboard_picture} src={pictureURL}/>
+                    {/* <img className={styles.storyboard_picture} src={blobUrl} alt={`Extracted Image`} /> */}
+                    {imageUrls.map((url, index) => (
+                        <img key={index} className={styles.storyboard_picture} src={url} alt={`Extracted Image ${index}`} style={{ margin: '10px' }} />
+                    ))}
                 </div>
                 
-                <div className={styles.storyboard_button}>
-                    <a href={pictureURL} download style={{textDecoration: "none", color: "inherit"}}>내 갤러리에 저장하기</a>
+                <div className={styles.storyboard_button} onClick={storePicture}>
+                    내 갤러리에 저장하기
                 </div>
             </div>
         </div>

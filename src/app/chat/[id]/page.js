@@ -13,6 +13,7 @@ import { createRoot } from 'react-dom/client';
 export default function ChatRoom() {
 
     const pathname = usePathname();
+
     const chatId = pathname.split("/")[2];
 
     const datas = require('/public/data/situation.json');
@@ -34,14 +35,53 @@ export default function ChatRoom() {
         } 
     };
 
-    const sendChat = () => {
+    const sendChat = async () => {
         setChats(currentChats => [...currentChats, { key: Date.now(), name: user, content }]);
-        setContent('');
         
+        const res = await axios.post(`http://3.39.81.135/api/chat/${chatId}`, {
+            "chat": content
+        });
+        // 답장
+        setChats(currentChats => [...currentChats, { key: Date.now(), name: bot, content: res.data.data }]);
+
+        setContent('');
     }
 
-    const makeStoryBoard = () => {
-        window.location.href =  `/chat/${pathname.split("/")[2]}/storyboard`
+    const makeStoryBoard = async () => {
+        const res = await axios.post(`http://3.39.81.135/api/chat/summary/${chatId}`, {
+            "chatList": chats
+        });
+
+        const data = res.data.data
+
+        const endpoint = 'http://3.37.233.51:5001/genimage';
+
+        fetch(endpoint, {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob(); // Process the response as a Blob if it was successful
+            }
+            throw new Error('Failed to retrieve the image. Status code: ' + response.status);
+        })
+        .then(blob => {
+            // Create a URL for the blob object
+            const url = window.URL.createObjectURL(blob);
+            window.location.href =  `/chat/${pathname.split("/")[2]}/storyboard?url=${url}`
+            // const a = document.createElement('a');
+            // a.href = url;
+            // a.download = 'images.zip'; // Specify the filename
+            // document.body.appendChild(a); // Append the link to the document
+            // a.click(); // Programmatically click the link to trigger the download
+            // document.body.removeChild(a); // Clean up by removing the link
+            // window.URL.revokeObjectURL(url); // Free up memory by revoking the blob URL
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     useEffect(() => {
