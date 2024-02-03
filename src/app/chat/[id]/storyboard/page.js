@@ -17,27 +17,28 @@ export default function StoryBoard() {
     // const url = pathname.split("=")[1];
 
     const params = useSearchParams();
-    const blobUrl = params.get('url');
+    const url = params.get('url');
 
     const datas = require('/public/data/situation.json');
 
     const [story, setStory] = useState(datas.find(data => data.id == chatId)?.story);
     const [situation, setSituation] = useState(datas.find(data => data.id == chatId)?.sit_title);
 
-    const [imageUrls, setImageUrls] = useState([]);
+    const [imageUrls, setImageUrls] = useState(url.split(','));
 
     const storePicture = async () => {
-        const a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = 'images.zip'; // Specify the filename
-        document.body.appendChild(a); // Append the link to the document
-        a.click(); // Programmatically click the link to trigger the download
-        document.body.removeChild(a); // Clean up by removing the link
-        window.URL.revokeObjectURL(blobUrl); // Free up memory by revoking the blob URL
+        for (let i = 0; i < imageUrls.length; i++) {
+            const a = document.createElement('a');
+            a.href = imageUrls[i];
+            a.download = `image${i}.png`; // Specify the filename
+            document.body.appendChild(a); // Append the link to the document
+            a.click(); // Programmatically click the link to trigger the download
+            document.body.removeChild(a); // Clean up by removing the link
+        }
     }
 
     useEffect(() => {
-        storePicture();
+        // storePicture();
     }, []);
 
     return (

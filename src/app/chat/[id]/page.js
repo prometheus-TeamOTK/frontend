@@ -56,32 +56,35 @@ export default function ChatRoom() {
 
         const endpoint = 'http://3.37.233.51:5001/genimage';
 
-        fetch(endpoint, {
+        const response  = await fetch(endpoint, {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.blob(); // Process the response as a Blob if it was successful
-            }
-            throw new Error('Failed to retrieve the image. Status code: ' + response.status);
-        })
-        .then(blob => {
-            // Create a URL for the blob object
-            const url = window.URL.createObjectURL(blob);
-            window.location.href =  `/chat/${pathname.split("/")[2]}/storyboard?url=${url}`
-            // const a = document.createElement('a');
-            // a.href = url;
-            // a.download = 'images.zip'; // Specify the filename
-            // document.body.appendChild(a); // Append the link to the document
-            // a.click(); // Programmatically click the link to trigger the download
-            // document.body.removeChild(a); // Clean up by removing the link
-            // window.URL.revokeObjectURL(url); // Free up memory by revoking the blob URL
-        })
-        .catch(error => console.error('Error:', error));
+        }).then(response => response.json())
+        console.log(response)
+        window.location.href =  `/chat/${pathname.split("/")[2]}/storyboard?url=${response.urls}`
+        
+        // .then(response => {
+        //     if (!response.ok) {
+        //         throw new Error('Network response was not ok');
+        //     }
+        //     return response.blob();
+        // })
+        // .then(blob => {
+        //     // Create a URL for the blob object
+        //     const url = window.URL.createObjectURL(blob);
+        //     window.location.href =  `/chat/${pathname.split("/")[2]}/storyboard?url=${url}`
+        //     // const a = document.createElement('a');
+        //     // a.href = url;
+        //     // a.download = 'images.zip'; // Specify the filename
+        //     // document.body.appendChild(a); // Append the link to the document
+        //     // a.click(); // Programmatically click the link to trigger the download
+        //     // document.body.removeChild(a); // Clean up by removing the link
+        //     // window.URL.revokeObjectURL(url); // Free up memory by revoking the blob URL
+        // })
+        // .catch(error => console.error('Error:', error));
     }
 
     useEffect(() => {
