@@ -56,7 +56,7 @@ export default function Chat() {
                 </div>
 
                 <div className={styles.create_select_container}>
-                    <SearchBox title="동화" dataList={storyList} setData={setStory}/>
+                    <SearchBox title="작품" dataList={storyList} setData={setStory}/>
                     <SearchBox title="나의 캐릭터" dataList={senderList} setData={setSender}/>
                     <SearchBox title="상대 캐릭터" dataList={receiverList} setData={setReceiver}/>
                     <SearchBox title="스토리 배경상황" dataList={situationList} setData={setSituation}/>
